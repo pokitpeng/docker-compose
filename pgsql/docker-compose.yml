@@ -1,0 +1,15 @@
+version: "3"
+services:
+  pgsql:
+    restart: always
+    image: postgres:9.6
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: danaos
+      POSTGRES_PASSWORD: db_password
+      POSTGRES_DB: danaos
+    #   PGDATA: /var/lib/postgresql/data/pgdata
+    # volumes:
+    #   - /home/server/pg_data/data:/var/lib/postgresql/data/pgdata
+    # container_name: pgsql

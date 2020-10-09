@@ -1,0 +1,36 @@
+groups:
+- name: 服务器离线
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 1m
+    labels:
+      user: test
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minutes."
+
+  - alert: CPU报警
+    expr: (100 - (avg by (instance)(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 90
+    for: 2m
+    labels:
+      team: node
+    annotations:
+      # Alert_type: CPU报警
+      # Server: '{{$labels.instance}}'
+      # explain: "CPU使用量超过90%，目前剩余量为：{{ $value }}"
+      summary: "{{$labels.instance}}: High CPU usage detected"
+      description: "{{$labels.instance}}: CPU usage is above 90% (current value is: {{ $value }})"
+
+  - alert: 磁盘报警
+    expr: 100.0 - 100 * ((node_filesystem_avail_bytes{mountpoint=~"/", device!="rootfs"} / 1000 / 1000 ) / (node_filesystem_size_bytes{mountpoint=~"/", device!="rootfs"} / 1024 / 1024)) > 90
+    for: 2m
+    labels:
+      team: node
+    annotations:
+      # Alert_type: 磁盘报警
+      # Server: '{{$labels.instance}}'
+      # explain: "磁盘使用量超过90%，目前剩余量为：{{ $value }}G"
+      summary: "{{$labels.instance}}: High Disk usage detected"
+      description: "{{$labels.instance}}: Disk usage is above 90% (current value is: {{ $value }})"
+

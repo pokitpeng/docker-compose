@@ -1,0 +1,26 @@
+version: "3" # 定义版本，不指定默认为版本 1，新版本功能更多
+services: # 容器
+  jenkins:
+    image: "jenkins/jenkins" # 镜像
+    container_name: jenkins # 容器名称
+    restart: always # 同 --restart 参数
+    privileged: true # 拥有root权限
+    environment:
+      JAVA_OPTS: "-Duser.timezone=Asia/Shanghai"
+    ports: # 端口映射，同 -p 参数，本地端口:容器端口
+      - "8080:8080"
+      - "50000:50000"
+    volumes: # 数据卷,本地文件夹:容器文件夹
+      - "/data/docker/jenkins:/var/jenkins_home"
+
+
+# 步骤：
+# mkdir -p /data/docker/jenkins
+# chown -R 1000:1000 /data/docker/jenkins    # 把当前目录的权限分配给 uid 1000
+# docker-compose up -d # -d 参数表示后台启动
+# docker-compose stop
+# 修改源：vi /data/docker/jenkins/hudson.model.UpdateCenter.xml
+# 清华源：https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/current/update-center.json
+# docker-compose start
+# docker logs -f jenkins #获取密钥
+# cat /data/docker/jenkins/secrets/initialAdminPassword

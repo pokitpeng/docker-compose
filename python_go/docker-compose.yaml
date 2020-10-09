@@ -1,0 +1,17 @@
+version: "3"
+services:
+  python:
+    image: python:3.6.9
+    volumes:
+      - /home/latiao/tmp/:/home
+    command: tail -f /etc/hosts
+  pypy:
+    image: pypy:3.6
+    volumes:
+      - /home/latiao/tmp/:/home
+    command: tail -f /etc/hosts
+  golang:
+    image: golang:1.13
+    volumes:
+      - /home/latiao/tmp/:/home
+    command: tail -f /etc/hosts

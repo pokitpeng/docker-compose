@@ -1,0 +1,25 @@
+version: '3'
+
+# 指定服务(启动的容器)
+services:
+ # 服务名：项目根目录小写_当前指定的服务名_服务个数序号
+  centos_golang:
+    # 指定 Dockerfile 所在文件夹的路径。 Compose 将会利用它自动构建这个镜像，然后使用这个镜像
+    build: ./
+    # 指定构建的镜像名
+    image: centos_golang:2.0
+
+    # 指定镜像，如果没有就会去DockerHub上拉取
+    # image: mysql:5.7
+
+    # 手动指定容器名(一般不需要)
+    # container_name: docker-web-container
+
+    #覆盖默认的CMD或者添加ENTRYPOINT参数
+    tty: true
+    # 指定目录映射,如果是数据卷名称，那就需要全局定义，格式：本地路径:容器路径
+    volumes:
+      - mnt_data:/mnt
+
+volumes:
+  mnt_data:

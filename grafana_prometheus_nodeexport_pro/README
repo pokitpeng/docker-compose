@@ -1,0 +1,7 @@
+启动前需要更改
+docker-compose.yml 路径
+prometheus.yml ip地址
+
+#cAdvisor 报错问题解决
+mount -o remount,rw '/sys/fs/cgroup'
+ln -s /sys/fs/cgroup/cpu,cpuacct /sys/fs/cgroup/cpuacct,cpu
